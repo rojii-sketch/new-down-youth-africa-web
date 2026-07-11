@@ -6,6 +6,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "react-router";
+import { useState } from "react";
 
 import type { Route } from "./+types/root";
 import siteLogo from "./assets/logo.png";
@@ -44,6 +45,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 // --- GLOBAL SITE LAYOUT INTEGRATION ---
 export default function App() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   // Array defining the navigation structure and individual page section offsets
   const navigationLinks = [
     {
@@ -85,52 +88,32 @@ export default function App() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 text-gray-900 font-sans">
       
-      {/* 1. DYNAMIC LIVE ACTIVITY BAR WITH INTERACTIVE HOVER */}
-      <div className="bg-blue-600 text-white text-xs py-2.5 font-bold px-4 shadow-inner overflow-hidden border-b border-blue-700 group/ticker cursor-pointer transition-colors duration-300 hover:bg-blue-700">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-2 shrink-0">
-            <span className="w-2 h-2 rounded-full bg-red-500 block animate-pulse"></span>
-            <span className="tracking-wider uppercase text-[10px] bg-red-800 px-1.5 py-0.5 rounded group-hover/ticker:bg-red-600 transition duration-200">
-              Live Dispatches
-            </span>
-          </div>
-          {/* Main Ticker text shifts slightly, gets clearer, and brightens up on container hover */}
-          <p className="flex-1 text-center font-medium px-4 text-blue-50 transition-all duration-300 transform group-hover/ticker:text-white group-hover/ticker:scale-[1.01] text-sm tracking-wide">
-            Notice: Connected to Regional Coordination Hubs. System updates streaming in real-time.
-          </p>
-          <span className="text-[10px] opacity-50 hidden sm:inline font-mono group-hover/ticker:opacity-100 transition duration-200">
-            Auto-Sync: Active
-          </span>
-        </div>
-      </div>
-
-      {/* 2. RECONSTRUCTED NAVIGATION HEADER */}
+      {/* NAVIGATION HEADER (Now sits neatly at the very top) */}
       <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           
-          {/* 💡 BRAND LOGO ELEMENT (UPGRADED WITH YOUR ASSET INTERACTION) */}
-          <a href="/" className="flex items-center gap-3 group/logo">
+          {/* Brand Identity Branding Logo Block */}
+          <a href="/" className="flex items-center gap-2 sm:gap-3 group/logo shrink-0">
             <img 
               src={siteLogo} 
               alt="New Dawn Youth Africa Branding Logo" 
-              className="h-10 w-auto object-contain transition-transform duration-300 transform group-hover/logo:scale-105"
+              className="h-8 sm:h-10 w-auto object-contain transition-transform duration-300 transform group-hover/logo:scale-105"
             />
             <div className="flex flex-col items-start leading-none text-left">
-              <span className="font-black text-sm tracking-tight text-blue-600 transition-colors duration-200 group-hover/logo:text-blue-700">
+              <span className="font-black text-xs sm:text-sm tracking-tight text-blue-600 transition-colors duration-200 group-hover/logo:text-blue-700">
                 NEW DAWN
               </span>
-              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mt-0.5">
+              <span className="text-[9px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-wider mt-0.5">
                 Youth Africa
               </span>
             </div>
           </a>
 
-          {/* HOVER DROPDOWN NAVIGATION LINKS CONTAINER */}
-          <div className="flex items-center gap-1 sm:gap-4 font-bold text-sm text-gray-600 h-full">
+          {/* DESKTOP ONLY LINKS */}
+          <div className="hidden md:flex items-center gap-4 font-bold text-sm text-gray-600 h-full">
             {navigationLinks.map((link, idx) => (
               <div key={idx} className="relative group h-full flex items-center px-3 py-2">
                 
-                {/* Main Action Link with Underline Hover Transition */}
                 <a 
                   href={link.path} 
                   className="relative py-1 text-gray-600 hover:text-blue-600 transition-colors duration-200 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-blue-600 after:transition-all after:duration-200 hover:after:w-full"
@@ -138,19 +121,11 @@ export default function App() {
                   {link.label}
                 </a>
 
-                {/* REUSABLE DROPDOWN COMPONENT DRAWER (Triggers cleanly on parent group hover) */}
-                <div className="absolute top-[calc(100%-4px)] left-1/2 -translate-x-1/2 w-52 bg-white border border-gray-200 shadow-xl rounded-xl p-2.5 
-                  /* Hidden state classes */
-                  opacity-0 scale-95 pointer-events-none 
-                  /* Active group-hover animation state transformation rules */
-                  group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto 
-                  transition-all duration-200 ease-out z-50"
-                >
-                  {/* Small absolute physical tip caret indicator top element arrow triangle */}
+                {/* DROPDOWN CONTAINER FOR DESKTOP MONITORS */}
+                <div className="absolute top-[calc(100%-4px)] left-1/2 -translate-x-1/2 w-52 bg-white border border-gray-200 shadow-xl rounded-xl p-2.5 opacity-0 scale-95 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto transition-all duration-200 ease-out z-50">
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1 w-2.5 h-2.5 bg-white border-t border-l border-gray-200 rotate-45"></div>
-                  
                   <div className="relative bg-white space-y-0.5">
-                    <p className="text-[10px] font-extrabold text-gray-400 uppercase tracking-wider px-2.5 py-1 mb-1 border-b border-gray-50">
+                    <p className="text-[10px] font-extrabold text-gray-400 uppercase tracking-wider px-2.5 py-1 mb-1 border-b border-gray-50 text-left">
                       Jump To Section
                     </p>
                     {link.sections.map((sec, secIdx) => (
@@ -169,6 +144,55 @@ export default function App() {
             ))}
           </div>
 
+          {/* MOBILE INTERACTIVE TOGGLE BUTTON */}
+          <button
+            type="button"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden flex items-center justify-center p-2 rounded-xl text-gray-600 hover:text-blue-600 hover:bg-gray-100 transition-all duration-150 active:scale-90"
+          >
+            {isMobileMenuOpen ? (
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+            ) : (
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            )}
+          </button>
+
+        </div>
+
+        {/* MOBILE SLIDE-DOWN DRAWER MENUS */}
+        <div 
+          className={`md:hidden bg-white border-b border-gray-200 overflow-hidden transition-all duration-300 ease-in-out shadow-xl relative z-40 ${
+            isMobileMenuOpen ? "max-h-[500px] opacity-100 border-t border-gray-100" : "max-h-0 opacity-0 pointer-events-none"
+          }`}
+        >
+          <div className="px-4 py-3 space-y-3 font-bold text-sm text-left">
+            {navigationLinks.map((link, idx) => (
+              <div key={idx} className="border-b border-gray-50 pb-2 last:border-0 last:pb-0">
+                
+                <a 
+                  href={link.path}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block text-gray-900 hover:text-blue-600 px-2 py-1.5 rounded-lg hover:bg-blue-50/50 text-base font-black transition"
+                >
+                  {link.label}
+                </a>
+                
+                <div className="pl-4 mt-1 grid grid-cols-2 gap-1 bg-gray-50/60 p-2 rounded-xl border border-gray-100">
+                  {link.sections.map((sec, secIdx) => (
+                    <a
+                      key={secIdx}
+                      href={sec.hash}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="text-[11px] font-bold text-gray-500 hover:text-blue-600 py-1 transition flex items-center gap-1"
+                    >
+                      • {sec.name}
+                    </a>
+                  ))}
+                </div>
+
+              </div>
+            ))}
+          </div>
         </div>
       </nav>
 

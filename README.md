@@ -1,5 +1,8 @@
 # New Dawn Youth Africa — Web Portal 🌍⚡
 
+[![Live Site](https://img.shields.io/badge/Live-Demo-blue?style=for-the-badge&logo=vercel)](https://new-down-youth-africa-web.vercel.app)
+# New Dawn Youth Africa — Web Portal 🌍⚡
+
 A production-grade, highly interactive, and mobile-first web application built for **New Dawn Youth Africa** using the modern **React Router v7 (Remix Core Engine)** framework, **TypeScript**, and **Tailwind CSS**. 
 
 Instead of operating as a traditional flat charity site, this portal is custom-tailored to serve a **B2B/B2G (Business-to-Business / Business-to-Government) Youth Mobilization Agency model**. It functions simultaneously as a professional portfolio to capture corporate/county administration contracts and as a real-time dispatch control dashboard for a grassroots youth network.

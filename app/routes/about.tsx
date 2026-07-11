@@ -1,0 +1,217 @@
+import { useState, useEffect, useRef } from "react";
+
+// --- 💡 NATIVE SCROLL REVEAL WRAPPER COMPONENT ---
+// Reusing the IntersectionObserver engine to capture scroll triggers cleanly
+function ScrollReveal({ children, delay = "delay-0" }: { children: React.ReactNode; delay?: string }) {
+  const [isIntersecting, setIsIntersecting] = useState(false);
+  const elementRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsIntersecting(true);
+          if (elementRef.current) observer.unobserve(elementRef.current);
+        }
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+    );
+
+    if (elementRef.current) observer.observe(elementRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={elementRef}
+      className={`transition-all duration-700 ease-out transform ${delay} ${
+        isIntersecting 
+          ? "opacity-100 translate-y-0 scale-100" 
+          : "opacity-0 translate-y-10 scale-[0.99] pointer-events-none"
+      }`}
+    >
+      {children}
+    </div>
+  );
+}
+
+export default function About() {
+  const coreValues = [
+    {
+      title: "Absolute Transparency",
+      description: "We explicitly detail project agendas, expected guest lineups, and exact participant gains to the youth network prior to any deployment field mobilization."
+    },
+    {
+      title: "Logistical Excellence",
+      description: "Whether managing a local community hall assembly in Kisauni or a large product activation across multiple coastal counties, we deliver organized, controlled turnouts."
+    },
+    {
+      title: "Accountable Delivery",
+      description: "We treat every mobilization initiative as a critical contract, supplying our corporate, administrative, and civic clients with verified engagement data."
+    }
+  ];
+
+  const mobilizationSteps = [
+    { num: "01", name: "Contract Scoping", desc: "Clients (Brands, MCAs, or County Offices) submit their specific target demographic criteria and project goals." },
+    { num: "02", name: "Agenda Simplification", desc: "We break down the client's complex project parameters into transparent, highly accessible briefs for the youth network." },
+    { num: "03", name: "Mass Mobilization", desc: "Leveraging our regional coordinators, we broadcast details, manage registrations, and secure structural venues." },
+    { num: "04", name: "Execution & Accountability", desc: "We coordinate orderly on-the-ground engagement, verify attendance parameters, and ensure smooth delivery of stipends or resources." }
+  ];
+
+  return (
+    <div className="bg-gray-50 text-gray-900 overflow-x-hidden scroll-smooth">
+      
+      {/* 1. HERO CONTEXT BLOCK (Mapped with #who-we-are Anchor Link) */}
+      <section id="who-we-are" className="bg-white border-b border-gray-100 py-16 sm:py-24 relative overflow-hidden">
+        {/* Abstract animated design ring watermark background decoration */}
+        <div className="absolute -right-16 -top-16 w-64 h-64 bg-blue-50/40 rounded-full pointer-events-none animate-pulse duration-1000"></div>
+        
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4 relative z-10">
+          <ScrollReveal>
+            <span className="inline-block text-xs font-extrabold uppercase tracking-widest text-blue-600 bg-blue-50 px-3 py-1 rounded-md shadow-sm transition-all duration-300 hover:scale-105 hover:bg-blue-100">
+              Who We Are
+            </span>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 tracking-tight mt-3 transition-transform duration-300 hover:scale-[1.005]">
+              The Preferred Mobilization Partner for <span className="text-blue-600">Youth Engagement</span>
+            </h1>
+            <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed mt-4 font-medium">
+              New Dawn Youth Africa is a premier community outreach agency and information hub. We specialize in connecting government agencies, corporate investors, and civic leaders with verified, active networks of young citizens for targeted programs, marketing activations, and policy town halls.
+            </p>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* 2. THE BUSINESS MODEL & PIPELINE (Mapped with #pipeline Anchor Link) */}
+      <section id="pipeline" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        
+        {/* Left Column Description Layout */}
+        <div className="space-y-6 group/story">
+          <ScrollReveal>
+            <h2 className="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight transition-all duration-300 group-hover/story:text-gray-800">
+              Connecting Organizations with Grassroots Audiences
+            </h2>
+            <div className="space-y-4 text-sm sm:text-base text-gray-600 leading-relaxed mt-4">
+              <p>
+                Organizations frequently struggle to reach, engage, and organize local youth effectively. New Dawn solves this operational challenge. When clients contract us, our main objective is to translate their mission into active youth participation.
+              </p>
+              <p>
+                We handle the end-to-end communication pipeline. From clarifying who the guest of honor is and structuring the meeting agenda, to explaining precisely what the youth will gain (such as stipends, equipment toolkits, or skills certifications), we remove ambiguity to ensure highly productive community forums.
+              </p>
+            </div>
+            
+            {/* Local Coastal HQ Highlight Badge */}
+            <div className="p-5 bg-blue-50/80 border-l-4 border-blue-600 rounded-r-2xl mt-6 transition-all duration-300 hover:bg-blue-50 hover:shadow-md transform hover:translate-x-1">
+              <p className="text-xs font-bold uppercase tracking-wider text-blue-800 flex items-center gap-1.5">
+                <span className="animate-ping w-1.5 h-1.5 bg-blue-600 rounded-full inline-block"></span>
+                📍 Regional Footprint
+              </p>
+              <p className="text-sm text-blue-950 mt-1.5">
+                Operated out of our main headquarters in <strong className="text-blue-900">Kadzandani Ward, Kisauni Sub-County (Mombasa)</strong>, with a scalable operational framework ready to deploy networks across all 47 Kenyan counties.
+              </p>
+            </div>
+          </ScrollReveal>
+        </div>
+
+        {/* Right Column - BLUEPRINT METHOD PIPELINE (Upgraded with highly responsive list-group card hover item highlights) */}
+        <div className="bg-gray-900 text-white p-8 sm:p-10 rounded-3xl shadow-xl border border-gray-800 space-y-6 transition-all duration-500 hover:shadow-2xl hover:border-gray-700">
+          <ScrollReveal>
+            <h3 className="text-lg font-black text-blue-400 border-b border-gray-800 pb-3 uppercase tracking-wider flex items-center justify-between">
+              <span>Our Operational Method</span>
+              <span className="text-[10px] text-gray-500 font-mono tracking-normal lowercase">contract execution pipeline</span>
+            </h3>
+            
+            <div className="space-y-3 pt-2">
+              {mobilizationSteps.map((step, idx) => (
+                <div 
+                  key={idx} 
+                  className="flex items-start gap-4 text-sm p-3 rounded-xl transition-all duration-200 group/step cursor-pointer hover:bg-gray-800/60 transform hover:translate-x-1.5"
+                >
+                  <span className="font-mono font-black text-blue-500 text-xl leading-none pt-0.5 transition-colors duration-200 group-hover/step:text-emerald-400">
+                    {step.num}
+                  </span>
+                  <div>
+                    <h4 className="font-bold text-white text-base leading-tight transition-colors duration-150 group-hover/step:text-blue-400">
+                      {step.name}
+                    </h4>
+                    <p className="text-gray-400 text-xs mt-1 leading-relaxed group-hover/step:text-gray-300">
+                      {step.desc}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </ScrollReveal>
+        </div>
+
+      </section>
+
+      {/* 3. CORE VALUE PRINCIPLES (Mapped with #values Anchor Link and Staggered Scroll Reveals) */}
+      <section id="values" className="bg-white border-y border-gray-200/60 py-20 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <ScrollReveal>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
+                Our Professional Guiding Values
+              </h2>
+              <p className="mt-3 text-sm text-gray-600 font-medium">
+                The foundational standards that make New Dawn a trusted contractual partner for both public administrators and global investors.
+              </p>
+            </ScrollReveal>
+          </div>
+
+          {/* Value cards rendering with horizontal spatial stagger lifts */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {coreValues.map((val, idx) => {
+              const staggerDelays = ["delay-0", "delay-100", "delay-200"];
+              
+              return (
+                <ScrollReveal key={idx} delay={staggerDelays[idx]}>
+                  <div className="bg-gray-50 p-8 rounded-2xl border border-gray-100/80 flex flex-col space-y-3 text-left
+                    /* HOVER LIFTS AND SMOOTH GRAPHIC SCALE INTERACTION MOTIONS */
+                    transition-all duration-300 ease-out transform 
+                    hover:-translate-y-2 hover:scale-[1.02] hover:shadow-xl hover:bg-white hover:border-blue-300"
+                  >
+                    <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 font-black flex items-center justify-center text-sm mb-1">
+                      {idx + 1}
+                    </div>
+                    <h3 className="font-extrabold text-gray-900 text-lg tracking-tight transition-colors duration-200">
+                      {val.title}
+                    </h3>
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                      {val.description}
+                    </p>
+                  </div>
+                </ScrollReveal>
+              );
+            })}
+          </div>
+
+        </div>
+      </section>
+
+      {/* 4. CLOSING CTA BANNER (With full motion spring reactions) */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+        <ScrollReveal>
+          <div className="bg-gradient-to-br from-gray-900 to-blue-950 text-white p-8 sm:p-12 rounded-3xl shadow-xl border border-gray-800 space-y-6 transform transition-transform duration-500 hover:scale-[1.01]">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight">
+              Need Verified Turnout for Your Next Project?
+            </h2>
+            <p className="text-gray-300 max-w-xl mx-auto text-sm sm:text-base leading-relaxed">
+              Put your community development strategy, product marketing activation, or local leadership agenda in front of an organized youth cohort.
+            </p>
+            <div className="pt-4">
+              <a 
+                href="/contact" 
+                className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-extrabold px-8 py-3.5 rounded-xl shadow-md text-sm transform transition-all duration-200 hover:-translate-y-0.5 hover:scale-105 hover:shadow-lg"
+              >
+                Initiate a Mobilization Contract
+              </a>
+            </div>
+          </div>
+        </ScrollReveal>
+      </section>
+
+    </div>
+  );
+}

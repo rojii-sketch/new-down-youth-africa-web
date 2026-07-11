@@ -116,9 +116,9 @@ export default function Contact() {
                   
                   {/* INTERACTIVE TOGGLE: ENGAGEMENT PORTAL CHANNEL SELECTOR */}
                   <div>
-                    <label className="block text-xs font-extrabold uppercase tracking-wider text-gray-400 mb-2">
+                    <span className="block text-xs font-extrabold uppercase tracking-wider text-gray-400 mb-2">
                       Select Portal Access Mode
-                    </label>
+                    </span>
                     <div className="grid grid-cols-2 gap-3 p-1 bg-gray-50 border border-gray-200 rounded-xl">
                       <button
                         type="button"

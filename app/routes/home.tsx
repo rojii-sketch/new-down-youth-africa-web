@@ -189,11 +189,11 @@ export default function Home() {
               </ul>
 
               <form onSubmit={handleVerifyCheck} className="space-y-2">
-                <label className="block text-[10px] font-bold tracking-wider text-gray-400 uppercase">
+                <label htmlFor="searchId" className="block text-[10px] font-bold tracking-wider text-gray-400 uppercase">
                   Verify Mobilization Network Status
                 </label>
                 <div className="flex gap-2">
-                  <input 
+                  <input id="searchId"
                     type="text" 
                     value={searchId}
                     onChange={(e) => setSearchId(e.target.value)}

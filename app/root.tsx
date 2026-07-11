@@ -27,7 +27,7 @@ export const links: Route.LinksFunction = () => [
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -227,8 +227,9 @@ export default function App() {
             <p className="mt-2 font-medium text-blue-400 text-xs">kahindirodgers77@gmail.com</p>
           </div>
         </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-t border-gray-800 text-center text-xs text-gray-500">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-t border-gray-800 text-center text-xs text-gray-500"><span suppressHydrationWarning>
           &copy; {new Date().getFullYear()} New Dawn Youth Africa. All rights reserved.
+          </span >
         </div>
       </footer>
     </div>

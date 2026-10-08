@@ -7,7 +7,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import type { Route } from "./+types/root";
 import siteLogo from "./assets/logo.png";
@@ -47,6 +47,25 @@ export function Layout({ children }: { children: React.ReactNode }) {
 // --- GLOBAL SITE LAYOUT INTEGRATION ---
 export default function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+
+    document.body.classList.add("overflow-hidden");
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isMobileMenuOpen]);
 
   // Array defining the navigation structure and individual page section offsets
   const navigationLinks = [
@@ -152,7 +171,7 @@ export default function App() {
             aria-expanded={isMobileMenuOpen}
             aria-controls="mobile-menu"
             aria-label="Toggle navigation menu"
-            className="md:hidden flex items-center justify-center p-2 rounded-xl text-gray-600 hover:text-blue-600 hover:bg-gray-100 transition-all duration-150 active:scale-90"
+            className="md:hidden flex items-center justify-center p-3 min-h-[44px] min-w-[44px] rounded-xl text-gray-600 hover:text-blue-600 hover:bg-gray-100 transition-all duration-150 active:scale-90"
           >
             {isMobileMenuOpen ? (
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -187,7 +206,7 @@ export default function App() {
             type="button"
             onClick={() => setIsMobileMenuOpen(false)}
             aria-label="Close navigation menu"
-            className="p-2 rounded-xl text-gray-600 hover:text-blue-600 hover:bg-gray-100 transition-all duration-150 active:scale-90"
+            className="p-3 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl text-gray-600 hover:text-blue-600 hover:bg-gray-100 transition-all duration-150 active:scale-90"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
           </button>

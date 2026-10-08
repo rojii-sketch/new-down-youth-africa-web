@@ -73,7 +73,7 @@ export default function Contact() {
                   </div>
                   <button
                     onClick={() => { setIsSubmitted(false); setFormData({ fullName: "", email: "", engagementType: "Hiring for Mobilization", county: "Mombasa", message: "" }); }}
-                    className="mt-6 px-6 py-2.5 bg-ndy-primary text-white font-bold rounded-full text-xs shadow-lg hover:scale-105 active:scale-95 transform transition-all duration-200"
+                    className="mt-6 px-6 py-2.5 min-h-[44px] bg-ndy-primary text-white font-bold rounded-full text-xs shadow-lg hover:scale-105 active:scale-95 transform transition-all duration-200"
                   >
                     Reset Dispatch Channel
                   </button>
@@ -90,7 +90,7 @@ export default function Contact() {
                       <button
                         type="button"
                         onClick={() => setFormData(p => ({ ...p, engagementType: "Hiring for Mobilization" }))}
-                        className={`py-2 px-3 text-xs font-bold rounded-lg transition-all duration-200 ${
+                        className={`py-2 px-3 min-h-[44px] text-xs font-bold rounded-lg transition-all duration-200 ${
                           isClient 
                             ? "bg-blue-600 text-white shadow-sm" 
                             : "text-gray-600 hover:text-gray-900"
@@ -101,7 +101,7 @@ export default function Contact() {
                       <button
                         type="button"
                         onClick={() => setFormData(p => ({ ...p, engagementType: "Joining Network Network" }))}
-                        className={`py-2 px-3 text-xs font-bold rounded-lg transition-all duration-200 ${
+                        className={`py-2 px-3 min-h-[44px] text-xs font-bold rounded-lg transition-all duration-200 ${
                           !isClient 
                             ? "bg-blue-600 text-white shadow-sm" 
                             : "text-gray-600 hover:text-gray-900"
@@ -124,7 +124,7 @@ export default function Contact() {
                       value={formData.fullName}
                       onChange={handleChange}
                       placeholder="e.g., Rodgers Kahindi"
-                      className="w-full px-4 py-3 border border-gray-300 bg-gray-50/30 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition text-sm font-medium"
+                      className="w-full px-4 py-3 border border-gray-300 bg-gray-50/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-ndy-primary focus:border-ndy-primary transition text-sm font-medium min-h-[44px]"
                     />
                   </div>
 
@@ -140,7 +140,7 @@ export default function Contact() {
                       value={formData.email}
                       onChange={handleChange}
                       placeholder="you@example.com"
-                      className="w-full px-4 py-3 border border-gray-300 bg-gray-50/30 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition text-sm font-medium"
+                      className="w-full px-4 py-3 border border-gray-300 bg-gray-50/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-ndy-primary focus:border-ndy-primary transition text-sm font-medium min-h-[44px]"
                     />
                   </div>
 
@@ -153,7 +153,7 @@ export default function Contact() {
                       id="county"
                       value={formData.county}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 bg-white outline-none transition text-sm font-bold text-gray-700"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-ndy-primary focus:border-ndy-primary bg-white transition text-sm font-bold text-gray-700 min-h-[44px]"
                     >
                       <option value="Mombasa">Mombasa County</option>
                       <option value="Kilifi">Kilifi County</option>
@@ -176,13 +176,13 @@ export default function Contact() {
                       value={formData.message}
                       onChange={handleChange}
                       placeholder={dynamicPlaceholder}
-                      className="w-full px-4 py-3 border border-gray-300 bg-gray-50/30 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all duration-300 text-sm font-medium resize-none"
+                      className="w-full px-4 py-3 border border-gray-300 bg-gray-50/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-ndy-primary focus:border-ndy-primary transition-all duration-300 text-sm font-medium resize-none"
                     />
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-ndy-primary to-ndy-secondary text-white font-extrabold py-3.5 px-4 rounded-xl transition-all duration-200 text-xs shadow-lg transform hover:-translate-y-0.5 hover:scale-105 hover:shadow-xl active:scale-95"
+                    className="w-full min-h-[44px] bg-gradient-to-r from-ndy-primary to-ndy-secondary text-white font-extrabold py-3.5 px-4 rounded-xl transition-all duration-200 text-xs shadow-lg transform hover:-translate-y-0.5 hover:scale-105 hover:shadow-xl active:scale-95"
                   >
                     {isClient ? "Submit Mobilization RFQ Briefing" : "Submit Verification Profile"}
                   </button>

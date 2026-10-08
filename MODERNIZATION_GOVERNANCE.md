@@ -20,9 +20,9 @@ Phase 3: Responsive Refactoring & Accessibility
 
 [x] Fluid Layouts: Refactor hero, metrics band, and service cards using CSS Grid with minmax.
 
-[ ] Form Polish: Add floating labels, focus rings, and touch targets (44px min).
+[x] Form Polish: Add floating labels, focus rings, and touch targets (44px min).
 
-[ ] Accessible Interactions: Ensure keyboard navigation and screen-reader friendliness.
+[x] Accessible Interactions: Ensure keyboard navigation and screen-reader friendliness.
 
 Phase 4: Route Enhancements
 [ ] SEO & Meta Tags: Add route-level meta exports to all four routes.

@@ -128,9 +128,9 @@ export default function Home() {
                       value={searchId}
                       onChange={(e) => setSearchId(e.target.value)}
                       placeholder="Enter full name or profile tracking code..."
-                      className="flex-grow bg-gray-800 border border-gray-700 text-white text-xs px-3 py-2 rounded-lg outline-none focus:border-blue-500 transition-colors duration-200"
+                      className="flex-grow min-h-[44px] bg-gray-800 border border-gray-700 text-white text-xs px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-ndy-primary focus:border-ndy-primary transition-colors duration-200"
                     />
-                    <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-3.5 py-2 rounded-lg transition-all duration-200 hover:scale-105 active:scale-95 shrink-0">
+                    <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-3.5 py-2 min-h-[44px] rounded-lg transition-all duration-200 hover:scale-105 active:scale-95 shrink-0">
                       Verify
                     </button>
                   </div>

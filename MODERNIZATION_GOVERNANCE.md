@@ -9,9 +9,9 @@ Phase 1: Architectural Foundation & Cleanup
 [x] Data Separation: Move hardcoded arrays into a dedicated app/data/content.ts file.
 
 Phase 2: Design System & UI Beautification
-[ ] Tailwind v4 Theme Configuration: Define design tokens in app.css and fix animate-fadeIn.
+[x] Tailwind v4 Theme Configuration: Define design tokens in app.css and fix animate-fadeIn.
 
-[ ] Modern Interface Elements: Add drop-shadows, glassmorphism to nav, rounded corners, and gradient accents.
+[x] Modern Interface Elements: Add drop-shadows, glassmorphism to nav, rounded corners, and gradient accents.
 
 [ ] Interactive Micro-animations: Add directional reveals and hover transform scaling.
 

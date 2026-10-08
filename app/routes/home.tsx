@@ -84,10 +84,10 @@ export default function Home() {
             </p>
             
             <div className="flex flex-wrap items-center gap-4 pt-2">
-              <Link to="/programs" className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-xl shadow-md text-sm transform hover:-translate-y-1 hover:scale-105 hover:shadow-lg transition-all duration-200">
+              <Link to="/programs" className="bg-gradient-to-r from-ndy-primary to-ndy-secondary text-white font-bold px-6 py-3 rounded-full shadow-lg text-sm transform hover:-translate-y-1 hover:scale-105 hover:shadow-xl transition-all duration-200">
                 View Upcoming Briefings
               </Link>
-              <Link to="/contact" className="bg-white hover:bg-gray-50 text-gray-700 font-bold px-6 py-3 rounded-xl border border-gray-200 shadow-sm text-sm transform hover:-translate-y-1 hover:scale-105 hover:shadow-md transition-all duration-200">
+              <Link to="/contact" className="bg-white hover:bg-gray-50 text-gray-700 font-bold px-6 py-3 rounded-full border border-gray-200 shadow-sm text-sm transform hover:-translate-y-1 hover:scale-105 hover:shadow-md transition-all duration-200">
                 Hire Us For A Contract
               </Link>
             </div>
@@ -132,7 +132,7 @@ export default function Home() {
                   </button>
                 </div>
                 {searchStatus && (
-                  <p className={`text-[11px] font-medium p-2.5 rounded mt-2 border transition-all duration-300 animate-fadeIn ${
+                  <p className={`text-[11px] font-medium p-2.5 rounded mt-2 border transition-all duration-300 animate-fade-in ${
                     searchStatus.includes("✅") 
                       ? "bg-green-950/40 text-green-400 border-green-900/40" 
                       : "bg-red-950/40 text-red-400 border-red-900/40"
@@ -207,8 +207,8 @@ export default function Home() {
                   className={`bg-white p-8 rounded-2xl border text-left cursor-pointer
                     /* 💡 DYNAMIC HOVER SCALE TRANSITIONS AND MOTIONS */
                     transition-all duration-300 ease-out transform 
-                    hover:-translate-y-2 hover:scale-[1.02] hover:shadow-2xl
-                    ${isCardOpen ? "border-blue-500 ring-2 ring-blue-500/10 shadow-md" : "border-gray-200 shadow-sm hover:border-blue-300"}
+                    hover:-translate-y-2 hover:scale-[1.02]
+                    ${isCardOpen ? "border-blue-500 ring-2 ring-blue-500/10 shadow-2xl" : "border-gray-200 shadow-lg hover:shadow-xl hover:border-blue-300"}
                   `}
                 >
                   <div className="flex items-center justify-between w-full">

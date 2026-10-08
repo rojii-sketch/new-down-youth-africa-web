@@ -69,8 +69,8 @@ export default function Programs() {
                   className={`bg-white border rounded-2xl overflow-hidden group/card text-left
                     /* 💡 ADVANCED TRANSITIONS AND LIFTS */
                     transition-all duration-300 ease-out transform 
-                    hover:-translate-y-1.5 hover:scale-[1.005] hover:shadow-xl
-                    ${hasJoined ? "border-emerald-500 ring-2 ring-emerald-500/5 shadow-inner" : "border-gray-200 shadow-sm hover:border-blue-300"}
+                    hover:-translate-y-1.5 hover:scale-[1.005]
+                    ${hasJoined ? "border-emerald-500 ring-2 ring-emerald-500/5 shadow-2xl" : "border-gray-200 shadow-lg hover:shadow-xl hover:border-blue-300"}
                   `}
                 >
                   <div className="p-6 sm:p-8">
@@ -130,11 +130,11 @@ export default function Programs() {
                       <button 
                         onClick={() => handleSimulatedRegister(job.id)}
                         disabled={job.status !== "Open Registration" || hasJoined}
-                        className={`px-6 py-3 rounded-xl font-bold text-xs shadow-sm transition-all duration-200 transform active:scale-95 ${
+                        className={`px-6 py-3 rounded-full font-bold text-xs shadow-sm transition-all duration-200 transform active:scale-95 ${
                           hasJoined
                             ? "bg-emerald-600 text-white font-extrabold shadow-inner cursor-default"
                             : job.status === "Open Registration"
-                            ? "bg-blue-600 hover:bg-blue-700 text-white hover:scale-105 hover:shadow-md"
+                            ? "bg-gradient-to-r from-ndy-primary to-ndy-secondary text-white hover:scale-105 hover:shadow-xl"
                             : "bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200"
                         }`}
                       >

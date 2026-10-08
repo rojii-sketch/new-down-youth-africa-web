@@ -60,7 +60,7 @@ export default function Contact() {
             <div className="bg-white p-8 rounded-3xl border border-gray-200 shadow-sm transition-all duration-300 hover:shadow-xl focus-within:border-blue-300 relative">
               
               {isSubmitted ? (
-                <div className="text-center py-16 space-y-4 animate-fadeIn">
+                <div className="text-center py-16 space-y-4 animate-fade-in">
                   <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 mb-2 font-mono text-xl font-bold">
                     ✓
                   </div>
@@ -73,7 +73,7 @@ export default function Contact() {
                   </div>
                   <button
                     onClick={() => { setIsSubmitted(false); setFormData({ fullName: "", email: "", engagementType: "Hiring for Mobilization", county: "Mombasa", message: "" }); }}
-                    className="mt-6 px-6 py-2.5 bg-blue-600 text-white font-bold rounded-xl text-xs shadow-sm hover:bg-blue-700 hover:scale-105 active:scale-95 transform transition-all duration-200"
+                    className="mt-6 px-6 py-2.5 bg-ndy-primary text-white font-bold rounded-full text-xs shadow-lg hover:scale-105 active:scale-95 transform transition-all duration-200"
                   >
                     Reset Dispatch Channel
                   </button>
@@ -182,7 +182,7 @@ export default function Contact() {
 
                   <button
                     type="submit"
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-3.5 px-4 rounded-xl transition-all duration-200 text-xs shadow-md transform hover:-translate-y-0.5 hover:shadow-lg active:scale-[0.99]"
+                    className="w-full bg-gradient-to-r from-ndy-primary to-ndy-secondary text-white font-extrabold py-3.5 px-4 rounded-xl transition-all duration-200 text-xs shadow-lg transform hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.99]"
                   >
                     {isClient ? "Submit Mobilization RFQ Briefing" : "Submit Verification Profile"}
                   </button>

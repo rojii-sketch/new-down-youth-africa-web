@@ -115,7 +115,8 @@ export default function About() {
                   <div className="bg-gray-50 p-8 rounded-2xl border border-gray-100/80 flex flex-col space-y-3 text-left
                     /* HOVER LIFTS AND SMOOTH GRAPHIC SCALE INTERACTION MOTIONS */
                     transition-all duration-300 ease-out transform 
-                    hover:-translate-y-2 hover:scale-[1.02] hover:shadow-xl hover:bg-white hover:border-blue-300"
+                    shadow-lg hover:shadow-xl
+                    hover:-translate-y-2 hover:scale-[1.02] hover:bg-white hover:border-blue-300"
                   >
                     <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 font-black flex items-center justify-center text-sm mb-1">
                       {idx + 1}
@@ -148,7 +149,7 @@ export default function About() {
             <div className="pt-4">
               <Link 
                 to="/contact" 
-                className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-extrabold px-8 py-3.5 rounded-xl shadow-md text-sm transform transition-all duration-200 hover:-translate-y-0.5 hover:scale-105 hover:shadow-lg"
+                className="inline-block bg-gradient-to-r from-ndy-primary to-ndy-secondary text-white font-extrabold px-8 py-3.5 rounded-full shadow-lg text-sm transform transition-all duration-200 hover:-translate-y-0.5 hover:scale-105 hover:shadow-xl"
               >
                 Initiate a Mobilization Contract
               </Link>

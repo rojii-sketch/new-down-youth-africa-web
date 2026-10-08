@@ -1,63 +1,8 @@
-import { useState, useEffect, useRef } from "react";
-
-// --- 💡 NATIVE SCROLL REVEAL WRAPPER COMPONENT ---
-// Reusing the IntersectionObserver engine to capture scroll triggers cleanly
-function ScrollReveal({ children, delay = "delay-0" }: { children: React.ReactNode; delay?: string }) {
-  const [isIntersecting, setIsIntersecting] = useState(false);
-  const elementRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsIntersecting(true);
-          if (elementRef.current) observer.unobserve(elementRef.current);
-        }
-      },
-      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
-    );
-
-    if (elementRef.current) observer.observe(elementRef.current);
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <div
-      ref={elementRef}
-      className={`transition-all duration-700 ease-out transform ${delay} ${
-        isIntersecting 
-          ? "opacity-100 translate-y-0 scale-100" 
-          : "opacity-0 translate-y-10 scale-[0.99] pointer-events-none"
-      }`}
-    >
-      {children}
-    </div>
-  );
-}
+import { Link } from "react-router";
+import ScrollReveal from "../components/ScrollReveal";
+import { coreValues, mobilizationSteps } from "~/data/content";
 
 export default function About() {
-  const coreValues = [
-    {
-      title: "Absolute Transparency",
-      description: "We explicitly detail project agendas, expected guest lineups, and exact participant gains to the youth network prior to any deployment field mobilization."
-    },
-    {
-      title: "Logistical Excellence",
-      description: "Whether managing a local community hall assembly in Kisauni or a large product activation across multiple coastal counties, we deliver organized, controlled turnouts."
-    },
-    {
-      title: "Accountable Delivery",
-      description: "We treat every mobilization initiative as a critical contract, supplying our corporate, administrative, and civic clients with verified engagement data."
-    }
-  ];
-
-  const mobilizationSteps = [
-    { num: "01", name: "Contract Scoping", desc: "Clients (Brands, MCAs, or County Offices) submit their specific target demographic criteria and project goals." },
-    { num: "02", name: "Agenda Simplification", desc: "We break down the client's complex project parameters into transparent, highly accessible briefs for the youth network." },
-    { num: "03", name: "Mass Mobilization", desc: "Leveraging our regional coordinators, we broadcast details, manage registrations, and secure structural venues." },
-    { num: "04", name: "Execution & Accountability", desc: "We coordinate orderly on-the-ground engagement, verify attendance parameters, and ensure smooth delivery of stipends or resources." }
-  ];
-
   return (
     <div className="bg-gray-50 text-gray-900 overflow-x-hidden scroll-smooth">
       
@@ -201,12 +146,12 @@ export default function About() {
               Put your community development strategy, product marketing activation, or local leadership agenda in front of an organized youth cohort.
             </p>
             <div className="pt-4">
-              <a 
-                href="/contact" 
+              <Link 
+                to="/contact" 
                 className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-extrabold px-8 py-3.5 rounded-xl shadow-md text-sm transform transition-all duration-200 hover:-translate-y-0.5 hover:scale-105 hover:shadow-lg"
               >
                 Initiate a Mobilization Contract
-              </a>
+              </Link>
             </div>
           </div>
         </ScrollReveal>

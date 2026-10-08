@@ -1,38 +1,5 @@
-import { useState, useEffect, useRef } from "react";
-
-// --- 💡 NATIVE SCROLL REVEAL WRAPPER COMPONENT ---
-function ScrollReveal({ children, delay = "delay-0" }: { children: React.ReactNode; delay?: string }) {
-  const [isIntersecting, setIsIntersecting] = useState(false);
-  const elementRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsIntersecting(true);
-          if (elementRef.current) observer.unobserve(elementRef.current);
-        }
-      },
-      { threshold: 0.1, rootMargin: "0px 0px -30px 0px" }
-    );
-
-    if (elementRef.current) observer.observe(elementRef.current);
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <div
-      ref={elementRef}
-      className={`transition-all duration-700 ease-out transform ${delay} ${
-        isIntersecting 
-          ? "opacity-100 translate-y-0 scale-100" 
-          : "opacity-0 translate-y-10 scale-[0.99] pointer-events-none"
-      }`}
-    >
-      {children}
-    </div>
-  );
-}
+import { useState } from "react";
+import ScrollReveal from "../components/ScrollReveal";
 
 export default function Contact() {
   // 1. Upgraded state model to align with your B2B/B2G mobilization scope

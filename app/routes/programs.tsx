@@ -1,93 +1,11 @@
-import { useState, useEffect, useRef } from "react";
-
-// --- 💡 REUSABLE SCROLL REVEAL WRAPPER COMPONENT ---
-function ScrollReveal({ children, delay = "delay-0" }: { children: React.ReactNode; delay?: string }) {
-  const [isIntersecting, setIsIntersecting] = useState(false);
-  const elementRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsIntersecting(true);
-          if (elementRef.current) observer.unobserve(elementRef.current);
-        }
-      },
-      { threshold: 0.1, rootMargin: "0px 0px -30px 0px" }
-    );
-
-    if (elementRef.current) observer.observe(elementRef.current);
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <div
-      ref={elementRef}
-      className={`transition-all duration-700 ease-out transform ${delay} ${
-        isIntersecting 
-          ? "opacity-100 translate-y-0 scale-100" 
-          : "opacity-0 translate-y-10 scale-[0.99] pointer-events-none"
-      }`}
-    >
-      {children}
-    </div>
-  );
-}
-
-interface ContractEngagement {
-  id: number;
-  clientType: "Government" | "Corporate Marketing" | "Political / Civic";
-  title: string;
-  agenda: string;
-  guestOfHonor: string;
-  location: string;
-  dateTime: string;
-  youthGain: string;
-  status: "Open Registration" | "Fully Mobilized" | "Concluded";
-}
+import { useState } from "react";
+import ScrollReveal from "../components/ScrollReveal";
+import { deployments, programFilters } from "~/data/content";
 
 export default function Programs() {
-  const deployments: ContractEngagement[] = [
-    {
-      id: 1,
-      clientType: "Government",
-      title: "Mombasa County Development Planning Forum",
-      agenda: "Reviewing spatial allocation budgets for local youth vocational centers and market stall distributions in Kisauni.",
-      guestOfHonor: "County Executive Committee Member (CECM) for Youth & Gender",
-      location: "Kadzandani Ward Office Hall, Kisauni, Mombasa",
-      dateTime: "Wednesday, Next Week at 9:00 AM EAT",
-      youthGain: "Direct policy input, networking channels, and transport facilitation allowances.",
-      status: "Open Registration",
-    },
-    {
-      id: 2,
-      clientType: "Corporate Marketing",
-      title: "Pwani Agribusiness Solar Pump Activation",
-      agenda: "Private Investor showcasing energy-efficient automated farming kits. Demonstration of product usage and onboarding regional distributors.",
-      guestOfHonor: "Head of Marketing, SoliTech East Africa",
-      location: "Mtwapa Agriculture Demonstration Grounds",
-      dateTime: "Friday, End of Month at 10:00 AM EAT",
-      youthGain: "Free technical operation certificates, priority access to sub-agency seed contracts, and lunch packages.",
-      status: "Open Registration",
-    },
-    {
-      id: 3,
-      clientType: "Political / Civic",
-      title: "Youth Townhall with Aspiring MCA Leadership",
-      agenda: "Debating local security infrastructure priorities, business permit waivers for youth groups, and coastal empowerment allocations.",
-      guestOfHonor: "Kadzandani Ward Candidate Representatives",
-      location: "Kisauni Community Social Hall, Mombasa",
-      dateTime: "Saturday, 18th July at 2:00 PM EAT",
-      youthGain: "Direct cross-examination of manifestos, youth-group registration funding sign-ups.",
-      status: "Fully Mobilized",
-    },
-  ];
-
   // --- 💡 LIVE SIMULATOR REGISTRATION STATES ---
   const [registeredIds, setRegisteredIds] = useState<number[]>([]);
   const [activeFilter, setActiveFilter] = useState<string>("All");
-  
-  const filters = ["All", "Government", "Corporate Marketing", "Political / Civic"];
 
   const filteredDeployments = activeFilter === "All"
     ? deployments
@@ -123,7 +41,7 @@ export default function Programs() {
         {/* Filter Navigation Tabs with Micro-Scale Highlights */}
         <ScrollReveal>
           <div className="flex flex-wrap justify-center items-center gap-2 mb-4">
-            {filters.map((filter) => (
+            {programFilters.map((filter) => (
               <button
                 key={filter}
                 onClick={() => setActiveFilter(filter)}

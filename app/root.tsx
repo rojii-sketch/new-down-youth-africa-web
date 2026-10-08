@@ -1,5 +1,6 @@
 import {
   isRouteErrorResponse,
+  Link,
   Links,
   Meta,
   Outlet,
@@ -93,7 +94,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           
           {/* Brand Identity Branding Logo Block */}
-          <a href="/" className="flex items-center gap-2 sm:gap-3 group/logo shrink-0">
+          <Link to="/" className="flex items-center gap-2 sm:gap-3 group/logo shrink-0">
             <img 
               src={siteLogo} 
               alt="New Dawn Youth Africa Branding Logo" 
@@ -107,19 +108,19 @@ export default function App() {
                 Youth Africa
               </span>
             </div>
-          </a>
+          </Link>
 
           {/* DESKTOP ONLY LINKS */}
           <div className="hidden md:flex items-center gap-4 font-bold text-sm text-gray-600 h-full">
             {navigationLinks.map((link, idx) => (
               <div key={idx} className="relative group h-full flex items-center px-3 py-2">
                 
-                <a 
-                  href={link.path} 
+                <Link 
+                  to={link.path} 
                   className="relative py-1 text-gray-600 hover:text-blue-600 transition-colors duration-200 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-blue-600 after:transition-all after:duration-200 hover:after:w-full"
                 >
                   {link.label}
-                </a>
+                </Link>
 
                 {/* DROPDOWN CONTAINER FOR DESKTOP MONITORS */}
                 <div className="absolute top-[calc(100%-4px)] left-1/2 -translate-x-1/2 w-52 bg-white border border-gray-200 shadow-xl rounded-xl p-2.5 opacity-0 scale-95 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto transition-all duration-200 ease-out z-50">
@@ -129,13 +130,13 @@ export default function App() {
                       Jump To Section
                     </p>
                     {link.sections.map((sec, secIdx) => (
-                      <a
+                      <Link
                         key={secIdx}
-                        href={sec.hash}
+                        to={sec.hash}
                         className="block px-2.5 py-2 text-xs font-semibold text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-all duration-150 border border-transparent hover:border-blue-100/30 text-left"
                       >
                         📍 {sec.name}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>
@@ -169,24 +170,24 @@ export default function App() {
             {navigationLinks.map((link, idx) => (
               <div key={idx} className="border-b border-gray-50 pb-2 last:border-0 last:pb-0">
                 
-                <a 
-                  href={link.path}
+                <Link 
+                  to={link.path}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="block text-gray-900 hover:text-blue-600 px-2 py-1.5 rounded-lg hover:bg-blue-50/50 text-base font-black transition"
                 >
                   {link.label}
-                </a>
+                </Link>
                 
                 <div className="pl-4 mt-1 grid grid-cols-2 gap-1 bg-gray-50/60 p-2 rounded-xl border border-gray-100">
                   {link.sections.map((sec, secIdx) => (
-                    <a
-                      key={secIdx}
-                      href={sec.hash}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="text-[11px] font-bold text-gray-500 hover:text-blue-600 py-1 transition flex items-center gap-1"
-                    >
-                      • {sec.name}
-                    </a>
+<Link
+                        key={secIdx}
+                        to={sec.hash}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="text-[11px] font-bold text-gray-500 hover:text-blue-600 py-1 transition flex items-center gap-1"
+                      >
+                        • {sec.name}
+                      </Link>
                   ))}
                 </div>
 
@@ -213,9 +214,9 @@ export default function App() {
           <div className="text-left">
             <h3 className="text-white font-bold text-base mb-3">Quick Navigation</h3>
             <ul className="space-y-2 text-xs">
-              <li><a href="/about" className="hover:text-white transition">Core Pillars</a></li>
-              <li><a href="/programs" className="hover:text-white transition">Active Impact Tracks</a></li>
-              <li><a href="/contact" className="hover:text-white transition">Get Involved</a></li>
+              <li><Link to="/about" className="hover:text-white transition">Core Pillars</Link></li>
+              <li><Link to="/programs" className="hover:text-white transition">Active Impact Tracks</Link></li>
+              <li><Link to="/contact" className="hover:text-white transition">Get Involved</Link></li>
             </ul>
           </div>
           <div className="text-left">

@@ -1,41 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router";
 import communityHeroBg from "../assets/images.jpeg";
-
-// --- 💡 NATIVE SCROLL REVEAL WRAPPER COMPONENT ---
-// This uses the browser's IntersectionObserver to trigger animations on scroll
-function ScrollReveal({ children, delay = "delay-0" }: { children: React.ReactNode; delay?: string }) {
-  const [isIntersecting, setIsIntersecting] = useState(false);
-  const elementRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsIntersecting(true);
-          // Once it animates in, we can stop observing this specific element
-          if (elementRef.current) observer.unobserve(elementRef.current);
-        }
-      },
-      { threshold: 0.15, rootMargin: "0px 0px -50px 0px" }
-    );
-
-    if (elementRef.current) observer.observe(elementRef.current);
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <div
-      ref={elementRef}
-      className={`transition-all duration-700 ease-out transform ${delay} ${
-        isIntersecting 
-          ? "opacity-100 translate-y-0 scale-100" 
-          : "opacity-0 translate-y-12 scale-[0.98] pointer-events-none"
-      }`}
-    >
-      {children}
-    </div>
-  );
-}
+import ScrollReveal from "../components/ScrollReveal";
+import { liveNotifications, services } from "~/data/content";
 
 export default function Home() {
   // --- STATE MOTORS FOR REAL-TIME SIMULATION ---
@@ -44,13 +11,6 @@ export default function Home() {
   const [searchId, setSearchId] = useState("");
   const [searchStatus, setSearchStatus] = useState<string | null>(null);
   const [expandedService, setExpandedService] = useState<number | null>(null);
-
-  const liveNotifications = [
-    "⚡ LIVE: 42 youth just checked into the Mombasa Planning Forum briefing.",
-    "📢 CONTRACT SIGNED: Private Investor onboarding 200 youth marketers in Kwale.",
-    "✅ DISPATCH: Kadzandani Ward venue locked for Saturday's MCA leadership summit.",
-    "🔥 IMPACT: Network milestone reached—over 450 verified youth registrations this week alone!"
-  ];
 
   useEffect(() => {
     const counterInterval = setInterval(() => {
@@ -77,39 +37,6 @@ export default function Home() {
       setSearchStatus("❌ ID NOT RECOGNIZED: Profile not active. Please submit a registration request via our Contact Page form.");
     }
   };
-
-  const services = [
-    {
-      icon: "🏛️",
-      title: "Civic & County Mobilization",
-      description: "Hired by county governments and officials to organize youth forums, community development activities, and town halls. We handle logistics, agendas, and clear participant mobilization.",
-      dropdownDetails: {
-        scope: "B2G Government Contracts",
-        deliverables: ["100% verified regional attendance logs", "Secure structural venue setups in Kisauni", "Comprehensive community feedback reporting"],
-        payouts: "Facilitated via strict county stipend structures."
-      }
-    },
-    {
-      icon: "📢",
-      title: "Commercial Product Marketing",
-      description: "Partnering with private investors and corporations to run product awareness campaigns, product testing panels, and educational marketing activations targeting young demographics.",
-      dropdownDetails: {
-        scope: "Corporate Brand Activations",
-        deliverables: ["Direct product usage training groups", "High-conversion brand ambassadors selection", "Data-driven field demographic analysis"],
-        payouts: "Commission matrices & direct activation daily stipends."
-      }
-    },
-    {
-      icon: "🗣️",
-      title: "Political & Leadership Forums",
-      description: "Contracted by leadership candidates, MCAs, and government dignitaries to structure orderly, highly productive meetings with youth groups, outlining clear parameters and tangible gains.",
-      dropdownDetails: {
-        scope: "Civic & Townhall Engagements",
-        deliverables: ["Orderly agenda moderation channels", "Transparent candidate manifesto distribution", "Direct youth question-and-answer panels"],
-        payouts: "Funded group-registration grants and toolkits."
-      }
-    }
-  ];
 
   return (
     <div className="bg-gray-50 text-gray-900 font-sans overflow-x-hidden">
@@ -157,12 +84,12 @@ export default function Home() {
             </p>
             
             <div className="flex flex-wrap items-center gap-4 pt-2">
-              <a href="/programs" className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-xl shadow-md text-sm transform hover:-translate-y-1 hover:scale-105 hover:shadow-lg transition-all duration-200">
+              <Link to="/programs" className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-xl shadow-md text-sm transform hover:-translate-y-1 hover:scale-105 hover:shadow-lg transition-all duration-200">
                 View Upcoming Briefings
-              </a>
-              <a href="/contact" className="bg-white hover:bg-gray-50 text-gray-700 font-bold px-6 py-3 rounded-xl border border-gray-200 shadow-sm text-sm transform hover:-translate-y-1 hover:scale-105 hover:shadow-md transition-all duration-200">
+              </Link>
+              <Link to="/contact" className="bg-white hover:bg-gray-50 text-gray-700 font-bold px-6 py-3 rounded-xl border border-gray-200 shadow-sm text-sm transform hover:-translate-y-1 hover:scale-105 hover:shadow-md transition-all duration-200">
                 Hire Us For A Contract
-              </a>
+              </Link>
             </div>
           </div>
 

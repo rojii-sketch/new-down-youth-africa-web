@@ -25,8 +25,8 @@ Phase 3: Responsive Refactoring & Accessibility
 [x] Accessible Interactions: Ensure keyboard navigation and screen-reader friendliness.
 
 Phase 4: Route Enhancements
-[ ] SEO & Meta Tags: Add route-level meta exports to all four routes.
+[x] SEO & Meta Tags: Add route-level meta exports to all four routes.
 
-[ ] Ticker Animation Upgrade: Smooth out the live ticker bar on the home route.
+[x] Ticker Animation Upgrade: Smooth out the live ticker bar on the home route.
 
-[ ] Program Filtering UI: Upgrade the filter tab bar on the programs.tsx route with smooth indicators.
+[x] Program Filtering UI: Upgrade the filter tab bar on the programs.tsx route with smooth indicators.

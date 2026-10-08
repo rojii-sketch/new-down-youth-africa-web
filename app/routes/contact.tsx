@@ -1,6 +1,15 @@
 import { useState } from "react";
 import ScrollReveal from "../components/ScrollReveal";
 
+import type { Route } from "./+types/contact";
+
+export function meta({}: Route.MetaArgs) {
+  return [
+    { title: "Contact | New Dawn Youth Africa" },
+    { name: "description", content: "Initiate a mobilization contract or join the youth network. Headquarters in Kadzandani Ward, Kisauni Sub-County, Mombasa, Kenya." },
+  ];
+}
+
 export default function Contact() {
   // 1. Upgraded state model to align with your B2B/B2G mobilization scope
   const [formData, setFormData] = useState({

@@ -2,6 +2,15 @@ import { useState } from "react";
 import ScrollReveal from "../components/ScrollReveal";
 import { deployments, programFilters } from "~/data/content";
 
+import type { Route } from "./+types/programs";
+
+export function meta({}: Route.MetaArgs) {
+  return [
+    { title: "Programs & Deployments | New Dawn Youth Africa" },
+    { name: "description", content: "Browse active mobilization deployments, upcoming civic forums, and corporate brand activations open for youth registration." },
+  ];
+}
+
 export default function Programs() {
   // --- 💡 LIVE SIMULATOR REGISTRATION STATES ---
   const [registeredIds, setRegisteredIds] = useState<number[]>([]);
@@ -44,11 +53,13 @@ export default function Programs() {
             {programFilters.map((filter) => (
               <button
                 key={filter}
+                type="button"
                 onClick={() => setActiveFilter(filter)}
+                aria-pressed={activeFilter === filter}
                 className={`px-4 py-2 rounded-full text-xs font-bold transition-all duration-200 transform hover:scale-105 active:scale-95 ${
                   activeFilter === filter
-                    ? "bg-blue-600 text-white shadow-md border border-transparent"
-                    : "bg-white border border-gray-200 text-gray-600 hover:border-gray-300 hover:text-gray-900"
+                    ? "bg-ndy-primary text-white shadow-md"
+                    : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-100 hover:border-gray-300 hover:text-gray-900"
                 }`}
               >
                 {filter}

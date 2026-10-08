@@ -1,8 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router";
 import communityHeroBg from "../assets/images.jpeg";
 import ScrollReveal from "../components/ScrollReveal";
 import { liveNotifications, services } from "~/data/content";
+
+import type { Route } from "./+types/home";
+
+export function meta({}: Route.MetaArgs) {
+  return [
+    { title: "New Dawn Youth Africa | Mobilizing the Future" },
+    { name: "description", content: "Empowering and mobilizing Kenyan youth through civic engagement, contract scoping, and community development." },
+  ];
+}
 
 export default function Home() {
   // --- STATE MOTORS FOR REAL-TIME SIMULATION ---
@@ -12,18 +21,35 @@ export default function Home() {
   const [searchStatus, setSearchStatus] = useState<string | null>(null);
   const [expandedService, setExpandedService] = useState<number | null>(null);
 
+  const displayedCountRef = useRef(10240);
+  const targetCountRef = useRef(10240);
+
   useEffect(() => {
-    const counterInterval = setInterval(() => {
-      setYouthCount((prev) => prev + Math.floor(Math.random() * 3) + 1);
-    }, 4000);
+    const targetInterval = setInterval(() => {
+      targetCountRef.current += Math.floor(Math.random() * 3) + 1;
+    }, 2000);
+
+    let frameId = 0;
+    const animate = () => {
+      const current = displayedCountRef.current;
+      const target = targetCountRef.current;
+      if (current < target) {
+        const next = Math.min(target, current + 0.08);
+        displayedCountRef.current = next;
+        setYouthCount(Math.floor(next));
+      }
+      frameId = requestAnimationFrame(animate);
+    };
+    frameId = requestAnimationFrame(animate);
 
     const tickerInterval = setInterval(() => {
       setLiveTickerIdx((prev) => (prev + 1) % liveNotifications.length);
     }, 5000);
 
     return () => {
-      clearInterval(counterInterval);
+      clearInterval(targetInterval);
       clearInterval(tickerInterval);
+      cancelAnimationFrame(frameId);
     };
   }, []);
 

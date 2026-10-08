@@ -2,6 +2,15 @@ import { Link } from "react-router";
 import ScrollReveal from "../components/ScrollReveal";
 import { coreValues, mobilizationSteps } from "~/data/content";
 
+import type { Route } from "./+types/about";
+
+export function meta({}: Route.MetaArgs) {
+  return [
+    { title: "About Us | New Dawn Youth Africa" },
+    { name: "description", content: "Learn how New Dawn Youth Africa connects governments, corporate investors, and civic leaders with verified youth networks across Kenya." },
+  ];
+}
+
 export default function About() {
   return (
     <div className="bg-gray-50 text-gray-900 overflow-x-hidden scroll-smooth">

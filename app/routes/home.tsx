@@ -155,7 +155,7 @@ export default function Home() {
       <section className="py-12 bg-gray-900 text-white relative z-10 shadow-lg border-y border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
               
               <div className="space-y-1 group cursor-pointer p-4 rounded-xl hover:bg-gray-800/40 transition duration-300">
                 <p className="text-4xl sm:text-5xl font-black text-blue-400 tracking-tight transition-transform duration-300 group-hover:scale-110 inline-block">47</p>
@@ -199,7 +199,7 @@ export default function Home() {
         </div>
 
         {/* Dynamic Grid featuring structural animation delays */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-8 items-start">
           {services.map((service, idx) => {
             const isCardOpen = expandedService === idx;
             const delayClasses = ["delay-0", "delay-100", "delay-200"];

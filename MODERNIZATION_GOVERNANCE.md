@@ -16,9 +16,9 @@ Phase 2: Design System & UI Beautification
 [x] Interactive Micro-animations: Add directional reveals and hover transform scaling.
 
 Phase 3: Responsive Refactoring & Accessibility
-[ ] Mobile Menu Overhaul: Replace max-height toggle with a slide-out drawer and add aria-expanded.
+[x] Mobile Menu Overhaul: Replace max-height toggle with a slide-out drawer and add aria-expanded.
 
-[ ] Fluid Layouts: Refactor hero, metrics band, and service cards using CSS Grid with minmax.
+[x] Fluid Layouts: Refactor hero, metrics band, and service cards using CSS Grid with minmax.
 
 [ ] Form Polish: Add floating labels, focus rings, and touch targets (44px min).
 

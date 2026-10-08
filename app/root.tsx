@@ -149,6 +149,9 @@ export default function App() {
           <button
             type="button"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-menu"
+            aria-label="Toggle navigation menu"
             className="md:hidden flex items-center justify-center p-2 rounded-xl text-gray-600 hover:text-blue-600 hover:bg-gray-100 transition-all duration-150 active:scale-90"
           >
             {isMobileMenuOpen ? (
@@ -159,43 +162,66 @@ export default function App() {
           </button>
 
         </div>
-
-        {/* MOBILE SLIDE-DOWN DRAWER MENUS */}
-        <div 
-          className={`md:hidden bg-white border-b border-gray-200 overflow-hidden transition-all duration-300 ease-in-out shadow-xl relative z-40 ${
-            isMobileMenuOpen ? "max-h-[500px] opacity-100 border-t border-gray-100" : "max-h-0 opacity-0 pointer-events-none"
-          }`}
-        >
-          <div className="px-4 py-3 space-y-3 font-bold text-sm text-left">
-            {navigationLinks.map((link, idx) => (
-              <div key={idx} className="border-b border-gray-50 pb-2 last:border-0 last:pb-0">
-                
-                <Link 
-                  to={link.path}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="block text-gray-900 hover:text-blue-600 px-2 py-1.5 rounded-lg hover:bg-blue-50/50 text-base font-black transition"
-                >
-                  {link.label}
-                </Link>
-                
-                <div className="pl-4 mt-1 grid grid-cols-2 gap-1 bg-gray-50/60 p-2 rounded-xl border border-gray-100">
-                  {link.sections.map((sec, secIdx) => (
-<Link
-                        key={secIdx}
-                        to={sec.hash}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="text-[11px] font-bold text-gray-500 hover:text-blue-600 py-1 transition flex items-center gap-1"
-                      >
-                        • {sec.name}
-                      </Link>
-                  ))}
-                </div>
-
-              </div>
-            ))}
-          </div>
-        </div>
       </nav>
+
+      {/* MOBILE BACKDROP OVERLAY */}
+      {isMobileMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black/20 z-40 md:hidden"
+          onClick={() => setIsMobileMenuOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* MOBILE SLIDE-OUT DRAWER MENU */}
+      <div
+        id="mobile-menu"
+        inert={!isMobileMenuOpen}
+        className={`fixed inset-y-0 right-0 z-50 w-64 bg-white shadow-2xl transform transition-transform duration-300 ease-in-out md:hidden ${
+          isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <div className="flex items-center justify-between px-4 h-16 border-b border-gray-100">
+          <span className="font-black text-sm text-blue-600 tracking-tight">NEW DAWN</span>
+          <button
+            type="button"
+            onClick={() => setIsMobileMenuOpen(false)}
+            aria-label="Close navigation menu"
+            className="p-2 rounded-xl text-gray-600 hover:text-blue-600 hover:bg-gray-100 transition-all duration-150 active:scale-90"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
+        </div>
+
+        <div className="px-4 py-4 space-y-3 font-bold text-sm text-left overflow-y-auto">
+          {navigationLinks.map((link, idx) => (
+            <div key={idx} className="border-b border-gray-50 pb-2 last:border-0 last:pb-0">
+              
+              <Link 
+                to={link.path}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block text-gray-900 hover:text-blue-600 px-2 py-1.5 rounded-lg hover:bg-blue-50/50 text-base font-black transition"
+              >
+                {link.label}
+              </Link>
+              
+              <div className="pl-4 mt-1 grid grid-cols-2 gap-1 bg-gray-50/60 p-2 rounded-xl border border-gray-100">
+                {link.sections.map((sec, secIdx) => (
+                  <Link
+                    key={secIdx}
+                    to={sec.hash}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="text-[11px] font-bold text-gray-500 hover:text-blue-600 py-1 transition flex items-center gap-1"
+                  >
+                    • {sec.name}
+                  </Link>
+                ))}
+              </div>
+
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* Dynamic Page Views Container */}
       <main className="flex-grow">

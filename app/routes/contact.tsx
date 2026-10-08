@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Form, useActionData, useNavigation } from "react-router";
 import ScrollReveal from "../components/ScrollReveal";
 
 import type { Route } from "./+types/contact";
@@ -10,34 +11,54 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
+interface Inquiry {
+  fullName: string;
+  email: string;
+  engagementType: string;
+  county: string;
+  message: string;
+}
+
+export async function action({ request }: Route.ActionArgs) {
+  const formData = await request.formData();
+
+  const data: Inquiry = {
+    fullName: String(formData.get("fullName") ?? "").trim(),
+    email: String(formData.get("email") ?? "").trim(),
+    engagementType: String(formData.get("engagementType") ?? "").trim(),
+    county: String(formData.get("county") ?? "").trim(),
+    message: String(formData.get("message") ?? "").trim(),
+  };
+
+  const errors: Partial<Record<keyof Inquiry, string>> = {};
+  if (!data.fullName) errors.fullName = "Please provide a name.";
+  if (!/^\S+@\S+\.\S+$/.test(data.email)) errors.email = "Please provide a valid email address.";
+  if (!data.county) errors.county = "Please select a county.";
+  if (data.message.length < 10) errors.message = "Please add a little more detail (10+ characters).";
+
+  if (Object.keys(errors).length > 0) {
+    return { ok: false as const, errors };
+  }
+
+  console.log("Server received inquiry:", data);
+
+  await new Promise((resolve) => setTimeout(resolve, 800));
+
+  return { ok: true as const, submission: data };
+}
+
 export default function Contact() {
-  // 1. Upgraded state model to align with your B2B/B2G mobilization scope
-  const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    engagementType: "Hiring for Mobilization", // Default strategy selector
-    county: "Mombasa",
-    message: "",
-  });
+  const [engagementType, setEngagementType] = useState("Hiring for Mobilization");
+  const [dismissedFor, setDismissedFor] = useState<unknown>(null);
 
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const actionData = useActionData<typeof action>();
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting";
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  const showSuccess = actionData?.ok === true && actionData !== dismissedFor;
+  const fieldErrors = actionData?.ok === false ? actionData.errors : {};
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Portal Registration Dispatched:", formData);
-    setIsSubmitted(true);
-  };
-
-  // 💡 Dynamic form content configuration parameters based on Engagement type selection
-  const isClient = formData.engagementType === "Hiring for Mobilization";
+  const isClient = engagementType === "Hiring for Mobilization";
   const dynamicPlaceholder = isClient
     ? "Outline your project agenda, guest of honor lineup, and resources allocated for youth turnout..."
     : "Tell us about your youth group, sub-county location, and fields you wish to participate in...";
@@ -68,27 +89,28 @@ export default function Contact() {
           <ScrollReveal>
             <div className="bg-white p-8 rounded-3xl border border-gray-200 shadow-sm transition-all duration-300 hover:shadow-xl focus-within:border-blue-300 relative">
               
-              {isSubmitted ? (
+              {showSuccess ? (
                 <div className="text-center py-16 space-y-4 animate-fade-in">
                   <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 mb-2 font-mono text-xl font-bold">
                     ✓
                   </div>
                   <h3 className="text-2xl font-black text-gray-900">Asante Sana!</h3>
                   <p className="text-gray-600 text-sm max-w-sm mx-auto font-medium">
-                    Thank you, <span className="text-blue-600 font-bold">{formData.fullName}</span>. Your portal packet has been successfully encrypted and routed to our Kisauni coordination hub.
+                    Thank you, <span className="text-blue-600 font-bold">{actionData.submission.fullName}</span>. Your portal packet has been successfully encrypted and routed to our Kisauni coordination hub.
                   </p>
                   <div className="bg-gray-50 text-[11px] p-3 rounded-xl border border-gray-100 font-mono text-gray-500 max-w-xs mx-auto">
-                    Tracking Scope: {formData.engagementType} ({formData.county})
+                    Tracking Scope: {actionData.submission.engagementType} ({actionData.submission.county})
                   </div>
                   <button
-                    onClick={() => { setIsSubmitted(false); setFormData({ fullName: "", email: "", engagementType: "Hiring for Mobilization", county: "Mombasa", message: "" }); }}
+                    type="button"
+                    onClick={() => setDismissedFor(actionData)}
                     className="mt-6 px-6 py-2.5 min-h-[44px] bg-ndy-primary text-white font-bold rounded-full text-xs shadow-lg hover:scale-105 active:scale-95 transform transition-all duration-200"
                   >
                     Reset Dispatch Channel
                   </button>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <Form method="post" onSubmit={() => setDismissedFor(null)} className="space-y-6">
                   
                   {/* INTERACTIVE TOGGLE: ENGAGEMENT PORTAL CHANNEL SELECTOR */}
                   <div>
@@ -98,7 +120,7 @@ export default function Contact() {
                     <div className="grid grid-cols-2 gap-3 p-1 bg-gray-50 border border-gray-200 rounded-xl">
                       <button
                         type="button"
-                        onClick={() => setFormData(p => ({ ...p, engagementType: "Hiring for Mobilization" }))}
+                        onClick={() => setEngagementType("Hiring for Mobilization")}
                         className={`py-2 px-3 min-h-[44px] text-xs font-bold rounded-lg transition-all duration-200 ${
                           isClient 
                             ? "bg-blue-600 text-white shadow-sm" 
@@ -109,7 +131,7 @@ export default function Contact() {
                       </button>
                       <button
                         type="button"
-                        onClick={() => setFormData(p => ({ ...p, engagementType: "Joining Network Network" }))}
+                        onClick={() => setEngagementType("Joining the Network")}
                         className={`py-2 px-3 min-h-[44px] text-xs font-bold rounded-lg transition-all duration-200 ${
                           !isClient 
                             ? "bg-blue-600 text-white shadow-sm" 
@@ -121,6 +143,8 @@ export default function Contact() {
                     </div>
                   </div>
 
+                  <input type="hidden" name="engagementType" value={engagementType} />
+
                   <div>
                     <label htmlFor="fullName" className="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">
                       {isClient ? "Company / Office Representative Full Name" : "Your Official Full Name"}
@@ -130,11 +154,14 @@ export default function Contact() {
                       name="fullName"
                       id="fullName"
                       required
-                      value={formData.fullName}
-                      onChange={handleChange}
                       placeholder="e.g., Rodgers Kahindi"
-                      className="w-full px-4 py-3 border border-gray-300 bg-gray-50/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-ndy-primary focus:border-ndy-primary transition text-sm font-medium min-h-[44px]"
+                      aria-invalid={fieldErrors.fullName ? true : undefined}
+                      aria-describedby={fieldErrors.fullName ? "fullName-error" : undefined}
+                      className="w-full px-4 py-3 border bg-gray-50/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-ndy-primary focus:border-ndy-primary transition text-sm font-medium min-h-[44px] aria-[invalid=true]:border-red-400"
                     />
+                    {fieldErrors.fullName && (
+                      <p id="fullName-error" className="text-xs font-medium text-red-600 mt-1.5">{fieldErrors.fullName}</p>
+                    )}
                   </div>
 
                   <div>
@@ -146,11 +173,14 @@ export default function Contact() {
                       name="email"
                       id="email"
                       required
-                      value={formData.email}
-                      onChange={handleChange}
                       placeholder="you@example.com"
-                      className="w-full px-4 py-3 border border-gray-300 bg-gray-50/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-ndy-primary focus:border-ndy-primary transition text-sm font-medium min-h-[44px]"
+                      aria-invalid={fieldErrors.email ? true : undefined}
+                      aria-describedby={fieldErrors.email ? "email-error" : undefined}
+                      className="w-full px-4 py-3 border bg-gray-50/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-ndy-primary focus:border-ndy-primary transition text-sm font-medium min-h-[44px] aria-[invalid=true]:border-red-400"
                     />
+                    {fieldErrors.email && (
+                      <p id="email-error" className="text-xs font-medium text-red-600 mt-1.5">{fieldErrors.email}</p>
+                    )}
                   </div>
 
                   <div>
@@ -160,9 +190,10 @@ export default function Contact() {
                     <select
                       name="county"
                       id="county"
-                      value={formData.county}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-ndy-primary focus:border-ndy-primary bg-white transition text-sm font-bold text-gray-700 min-h-[44px]"
+                      defaultValue="Mombasa"
+                      aria-invalid={fieldErrors.county ? true : undefined}
+                      aria-describedby={fieldErrors.county ? "county-error" : undefined}
+                      className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-ndy-primary focus:border-ndy-primary bg-white transition text-sm font-bold text-gray-700 min-h-[44px] aria-[invalid=true]:border-red-400"
                     >
                       <option value="Mombasa">Mombasa County</option>
                       <option value="Kilifi">Kilifi County</option>
@@ -171,6 +202,9 @@ export default function Contact() {
                       <option value="Nairobi">Nairobi County</option>
                       <option value="Other">Other African Region</option>
                     </select>
+                    {fieldErrors.county && (
+                      <p id="county-error" className="text-xs font-medium text-red-600 mt-1.5">{fieldErrors.county}</p>
+                    )}
                   </div>
 
                   <div>
@@ -182,20 +216,33 @@ export default function Contact() {
                       id="message"
                       rows={4}
                       required
-                      value={formData.message}
-                      onChange={handleChange}
                       placeholder={dynamicPlaceholder}
-                      className="w-full px-4 py-3 border border-gray-300 bg-gray-50/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-ndy-primary focus:border-ndy-primary transition-all duration-300 text-sm font-medium resize-none"
+                      aria-invalid={fieldErrors.message ? true : undefined}
+                      aria-describedby={fieldErrors.message ? "message-error" : undefined}
+                      className="w-full px-4 py-3 border bg-gray-50/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-ndy-primary focus:border-ndy-primary transition-all duration-300 text-sm font-medium resize-none aria-[invalid=true]:border-red-400"
                     />
+                    {fieldErrors.message && (
+                      <p id="message-error" className="text-xs font-medium text-red-600 mt-1.5">{fieldErrors.message}</p>
+                    )}
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full min-h-[44px] bg-gradient-to-r from-ndy-primary to-ndy-secondary text-white font-extrabold py-3.5 px-4 rounded-xl transition-all duration-200 text-xs shadow-lg transform hover:-translate-y-0.5 hover:scale-105 hover:shadow-xl active:scale-95"
+                    disabled={isSubmitting}
+                    className="w-full min-h-[44px] bg-gradient-to-r from-ndy-primary to-ndy-secondary text-white font-extrabold py-3.5 px-4 rounded-xl transition-all duration-200 text-xs shadow-lg transform hover:-translate-y-0.5 hover:scale-105 hover:shadow-xl active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:scale-100"
                   >
-                    {isClient ? "Submit Mobilization RFQ Briefing" : "Submit Verification Profile"}
+                    {isSubmitting
+                      ? "Sending..."
+                      : isClient
+                        ? "Submit Mobilization RFQ Briefing"
+                        : "Submit Verification Profile"}
                   </button>
-                </form>
+                  {Object.keys(fieldErrors).length > 0 && (
+                    <p role="alert" className="text-xs font-medium text-red-600 bg-red-50 border border-red-100 rounded-lg px-3 py-2">
+                      Please correct the highlighted fields and try again.
+                    </p>
+                  )}
+                </Form>
               )}
             </div>
           </ScrollReveal>

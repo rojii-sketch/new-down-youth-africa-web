@@ -13,7 +13,7 @@ Phase 2: Design System & UI Beautification
 
 [x] Modern Interface Elements: Add drop-shadows, glassmorphism to nav, rounded corners, and gradient accents.
 
-[ ] Interactive Micro-animations: Add directional reveals and hover transform scaling.
+[x] Interactive Micro-animations: Add directional reveals and hover transform scaling.
 
 Phase 3: Responsive Refactoring & Accessibility
 [ ] Mobile Menu Overhaul: Replace max-height toggle with a slide-out drawer and add aria-expanded.

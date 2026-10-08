@@ -149,7 +149,7 @@ export default function About() {
             <div className="pt-4">
               <Link 
                 to="/contact" 
-                className="inline-block bg-gradient-to-r from-ndy-primary to-ndy-secondary text-white font-extrabold px-8 py-3.5 rounded-full shadow-lg text-sm transform transition-all duration-200 hover:-translate-y-0.5 hover:scale-105 hover:shadow-xl"
+                className="inline-block bg-gradient-to-r from-ndy-primary to-ndy-secondary text-white font-extrabold px-8 py-3.5 rounded-full shadow-lg text-sm transform transition-all duration-200 hover:-translate-y-0.5 hover:scale-105 hover:shadow-xl active:scale-95"
               >
                 Initiate a Mobilization Contract
               </Link>

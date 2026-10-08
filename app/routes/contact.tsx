@@ -182,7 +182,7 @@ export default function Contact() {
 
                   <button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-ndy-primary to-ndy-secondary text-white font-extrabold py-3.5 px-4 rounded-xl transition-all duration-200 text-xs shadow-lg transform hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.99]"
+                    className="w-full bg-gradient-to-r from-ndy-primary to-ndy-secondary text-white font-extrabold py-3.5 px-4 rounded-xl transition-all duration-200 text-xs shadow-lg transform hover:-translate-y-0.5 hover:scale-105 hover:shadow-xl active:scale-95"
                   >
                     {isClient ? "Submit Mobilization RFQ Briefing" : "Submit Verification Profile"}
                   </button>

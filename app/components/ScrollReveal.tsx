@@ -1,14 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import type { ReactNode } from "react";
 
 export type ScrollRevealDirection = "up" | "left" | "right" | "none";
-
-const offsetTransforms: Record<ScrollRevealDirection, string> = {
-  up: "translate-y-10",
-  left: "-translate-x-10",
-  right: "translate-x-10",
-  none: "",
-};
 
 export default function ScrollReveal({
   children,
@@ -19,42 +12,24 @@ export default function ScrollReveal({
   delay?: string;
   direction?: ScrollRevealDirection;
 }) {
-  const [isIntersecting, setIsIntersecting] = useState(false);
   const elementRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsIntersecting(true);
-          if (elementRef.current) observer.unobserve(elementRef.current);
-        }
-      },
-      { threshold: 0.15, rootMargin: "0px 0px -50px 0px" }
-    );
+    const element = elementRef.current;
+    if (!element || direction === "none" || !("IntersectionObserver" in window)) return;
 
-    if (elementRef.current) observer.observe(elementRef.current);
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      element.dataset.revealed = "true";
+      observer.disconnect();
+    });
+
+    observer.observe(element);
     return () => observer.disconnect();
-  }, []);
-
-  const hiddenClasses = [
-    "opacity-0",
-    offsetTransforms[direction],
-    "scale-[0.98]",
-    "pointer-events-none",
-  ]
-    .filter(Boolean)
-    .join(" ");
+  }, [direction]);
 
   return (
-    <div
-      ref={elementRef}
-      className={`transition-all duration-700 ease-out transform ${delay} ${
-        isIntersecting
-          ? "opacity-100 translate-x-0 translate-y-0 scale-100"
-          : hiddenClasses
-      }`}
-    >
+    <div ref={elementRef} className={`scroll-reveal ${delay}`} data-direction={direction}>
       {children}
     </div>
   );

@@ -5,7 +5,7 @@ export interface ServiceDropdownDetails {
 }
 
 export interface Service {
-  icon: string;
+  icon: "landmark" | "megaphone" | "messages";
   title: string;
   description: string;
   dropdownDetails: ServiceDropdownDetails;
@@ -35,15 +35,15 @@ export interface ContractEngagement {
 }
 
 export const liveNotifications: string[] = [
-  "⚡ LIVE: 42 youth just checked into the Mombasa Planning Forum briefing.",
-  "📢 CONTRACT SIGNED: Private Investor onboarding 200 youth marketers in Kwale.",
-  "✅ DISPATCH: Kadzandani Ward venue locked for Saturday's MCA leadership summit.",
-  "🔥 IMPACT: Network milestone reached—over 450 verified youth registrations this week alone!",
+  "42 youth just checked into the Mombasa Planning Forum briefing.",
+  "Private Investor onboarding 200 youth marketers in Kwale.",
+  "Kadzandani Ward venue locked for Saturday's MCA leadership summit.",
+  "Network milestone reached—over 450 verified youth registrations this week alone!",
 ];
 
 export const services: Service[] = [
   {
-    icon: "🏛️",
+    icon: "landmark",
     title: "Civic & County Mobilization",
     description:
       "Hired by county governments and officials to organize youth forums, community development activities, and town halls. We handle logistics, agendas, and clear participant mobilization.",
@@ -58,7 +58,7 @@ export const services: Service[] = [
     },
   },
   {
-    icon: "📢",
+    icon: "megaphone",
     title: "Commercial Product Marketing",
     description:
       "Partnering with private investors and corporations to run product awareness campaigns, product testing panels, and educational marketing activations targeting young demographics.",
@@ -73,7 +73,7 @@ export const services: Service[] = [
     },
   },
   {
-    icon: "🗣️",
+    icon: "messages",
     title: "Political & Leadership Forums",
     description:
       "Contracted by leadership candidates, MCAs, and government dignitaries to structure orderly, highly productive meetings with youth groups, outlining clear parameters and tangible gains.",
@@ -172,9 +172,9 @@ export const deployments: ContractEngagement[] = [
   },
 ];
 
-export const programFilters: string[] = [
+export const programFilters = [
   "All",
   "Government",
   "Corporate Marketing",
   "Political / Civic",
-];
+] as const;

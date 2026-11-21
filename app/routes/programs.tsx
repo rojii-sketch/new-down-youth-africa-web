@@ -1,3 +1,5 @@
+import { ArrowRight, CalendarDays, Check, Clock, Gift, Landmark, LayoutGrid, MapPin, Megaphone, MessagesSquare, Target, UserRound } from "lucide-react";
+import PageIntro from "../components/PageIntro";
 import { useState } from "react";
 import ScrollReveal from "../components/ScrollReveal";
 import { deployments, programFilters } from "~/data/content";
@@ -11,10 +13,12 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
+const filterIcons = { All: LayoutGrid, Government: Landmark, "Corporate Marketing": Megaphone, "Political / Civic": MessagesSquare };
+
 export default function Programs() {
   // --- 💡 LIVE SIMULATOR REGISTRATION STATES ---
   const [registeredIds, setRegisteredIds] = useState<number[]>([]);
-  const [activeFilter, setActiveFilter] = useState<string>("All");
+  const [activeFilter, setActiveFilter] = useState<(typeof programFilters)[number]>("All");
 
   const filteredDeployments = activeFilter === "All"
     ? deployments
@@ -27,78 +31,73 @@ export default function Programs() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 overflow-x-hidden scroll-smooth">
-      
-      {/* 1. FOCUS SECTION HEADER BLOCK (Mapped with #focus Anchor Link Handle) */}
-      <div id="focus" className="text-center max-w-3xl mx-auto mb-16 relative pt-4">
-        <ScrollReveal>
-          <span className="inline-block text-xs font-extrabold uppercase tracking-widest text-blue-600 bg-blue-50 px-3 py-1 rounded-md shadow-sm border border-blue-100">
-            Deployment Control
-          </span>
-          <h1 className="text-3xl sm:text-4xl font-black text-gray-900 tracking-tight mt-3">
-            Active Engagements & Deployment Board
-          </h1>
-          <p className="mt-4 text-base sm:text-lg text-gray-600 leading-relaxed font-medium">
-            Transparent, upfront project briefs for our youth network. Read agendas, locate meeting points, view guest lineups, and verify your benefits before participating.
-          </p>
-        </ScrollReveal>
-      </div>
+    <div className="inner-page max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 overflow-x-hidden scroll-smooth">
+
+      <PageIntro id="focus" icon={CalendarDays} label="Programs" title={<>Find your next <em>opportunity</em></>}>
+        Explore example forums and campaigns, compare participation details, and try the registration demo.
+      </PageIntro>
 
       {/* 2. OPERATIONAL BOARD BLOCK CONTAINER (Mapped with #board Anchor Link Handle) */}
       <div id="board" className="space-y-8">
-        
+
         {/* Filter Navigation Tabs with Micro-Scale Highlights */}
         <ScrollReveal>
-          <div className="flex flex-wrap justify-center items-center gap-2 mb-4">
-            {programFilters.map((filter) => (
-              <button
-                key={filter}
-                type="button"
-                onClick={() => setActiveFilter(filter)}
-                aria-pressed={activeFilter === filter}
-                className={`px-4 py-2 rounded-full text-xs font-bold transition-all duration-200 transform hover:scale-105 active:scale-95 ${
-                  activeFilter === filter
-                    ? "bg-ndy-primary text-white shadow-md"
-                    : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-100 hover:border-gray-300 hover:text-gray-900"
-                }`}
-              >
-                {filter}
-              </button>
-            ))}
+          <div role="group" aria-label="Filter programs by sector" className="flex flex-wrap items-center gap-2">
+            {programFilters.map((filter) => {
+              const FilterIcon = filterIcons[filter];
+              return (
+                <button
+                  key={filter}
+                  type="button"
+                  onClick={() => setActiveFilter(filter)}
+                  aria-pressed={activeFilter === filter}
+                  className={`filter-button ${
+                    activeFilter === filter
+                      ? "bg-ndy-primary text-white shadow-md"
+                      : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-100 hover:border-gray-300 hover:text-gray-900"
+                  }`}
+                >
+                  <FilterIcon size={17} aria-hidden="true" /> {filter}
+                </button>
+              );
+            })}
           </div>
+          <p className="mt-4 text-sm text-gray-600" role="status">
+            {filteredDeployments.length} {filteredDeployments.length === 1 ? "program" : "programs"} shown. Sample schedules and registration steps are for demonstration.
+          </p>
         </ScrollReveal>
 
         {/* Deployment Cards Stagger Loop Grid */}
         <div className="grid grid-cols-1 gap-8">
           {filteredDeployments.map((job, idx) => {
             const hasJoined = registeredIds.includes(job.id);
-            const cardDelays = ["delay-0", "delay-700", "delay-200"]; // Loop index padding shifts
-            
+            const CategoryIcon = filterIcons[job.clientType];
+            const cardDelays = ["delay-0", "delay-100", "delay-200"];
+
             return (
               <ScrollReveal key={job.id} delay={cardDelays[idx] || "delay-0"}>
-                <div 
-                  className={`bg-white border rounded-2xl overflow-hidden group/card text-left
-                    /* 💡 ADVANCED TRANSITIONS AND LIFTS */
-                    transition-all duration-300 ease-out transform 
-                    hover:-translate-y-1.5 hover:scale-[1.005]
+                <div
+                  className={`surface-card program-card bg-white border rounded-2xl overflow-hidden group/card text-left
+                    transition-all duration-300 ease-out transform
+                    hover:border-blue-300
                     ${hasJoined ? "border-emerald-500 ring-2 ring-emerald-500/5 shadow-2xl" : "border-gray-200 shadow-lg hover:shadow-xl hover:border-blue-300"}
                   `}
                 >
                   <div className="p-6 sm:p-8">
-                    
+
                     {/* Upper Badge Panel Layout Row */}
                     <div className="flex flex-wrap justify-between items-center gap-4 mb-4">
-                      <span className="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-bold rounded-md border border-blue-100 transition-all duration-300 group-hover/card:bg-blue-100">
-                        {job.clientType}
+                      <span className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-700 text-xs font-bold rounded-md border border-blue-100 transition-all duration-300 group-hover/card:bg-blue-100">
+                        <CategoryIcon size={15} aria-hidden="true" /> {job.clientType}
                       </span>
                       <span className={`px-2.5 py-0.5 rounded-full text-xs font-extrabold border ${
                         hasJoined
-                          ? "bg-emerald-50 text-emerald-700 border-emerald-200 animate-pulse"
+                          ? "bg-emerald-50 text-emerald-700 border-emerald-200"
                           : job.status === "Open Registration"
                           ? "bg-green-50 text-green-700 border-green-200"
                           : "bg-amber-50 text-amber-700 border-amber-200"
                       }`}>
-                        ● {hasJoined ? "Profile Dispatched" : job.status}
+                        <span className="status-dot" aria-hidden="true" /> {hasJoined ? "Demo complete" : job.status === "Open Registration" ? "Demo available" : job.status}
                       </span>
                     </div>
 
@@ -106,53 +105,57 @@ export default function Programs() {
                     <h2 className="text-xl sm:text-2xl font-black text-gray-900 mb-4 transition-colors duration-200 group-hover/card:text-blue-600">
                       {job.title}
                     </h2>
-                    
+
                     <div className="bg-gray-50 border border-gray-100 p-4 rounded-xl mb-6 transition-colors duration-200 group-hover/card:bg-gray-50/80 group-hover/card:border-gray-200/60">
-                      <h4 className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1 flex items-center gap-1.5">
-                        <span>🎯 Complete Project Agenda</span>
-                      </h4>
+                      <h3 className="text-xs font-bold uppercase tracking-wider text-gray-600 mb-2 flex items-center gap-2">
+                        <Target size={17} aria-hidden="true" /> Project agenda
+                      </h3>
                       <p className="text-sm text-gray-700 leading-relaxed font-medium">
                         {job.agenda}
                       </p>
                     </div>
 
                     {/* Metadata Context Selection Row Grid Blocks */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm border-b border-gray-100 pb-6 mb-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-sm border-b border-gray-100 pb-6 mb-6">
                       <div className="p-2 rounded-xl transition-colors duration-200 hover:bg-gray-50 group/meta">
-                        <p className="text-xs text-gray-400 font-extrabold uppercase tracking-wide">👤 Guest of Honor</p>
+                        <p className="metadata-label"><UserRound size={16} aria-hidden="true" /> Guest of honor</p>
                         <p className="font-bold text-gray-800 mt-0.5 transition-colors duration-150 group-hover/meta:text-blue-600">{job.guestOfHonor}</p>
                       </div>
                       <div className="p-2 rounded-xl transition-colors duration-200 hover:bg-gray-50 group/meta">
-                        <p className="text-xs text-gray-400 font-extrabold uppercase tracking-wide">📍 Exact Venue / Meeting Hub</p>
+                        <p className="metadata-label"><MapPin size={16} aria-hidden="true" /> Meeting venue</p>
                         <p className="font-bold text-gray-800 mt-0.5 transition-colors duration-150 group-hover/meta:text-blue-600">{job.location}</p>
                       </div>
                       <div className="p-2 rounded-xl transition-colors duration-200 hover:bg-gray-50 group/meta">
-                        <p className="text-xs text-gray-400 font-extrabold uppercase tracking-wide">⏱ Schedule Timing</p>
+                        <p className="metadata-label"><Clock size={16} aria-hidden="true" /> Schedule</p>
                         <p className="font-bold text-blue-600 mt-0.5">{job.dateTime}</p>
                       </div>
                       <div className="p-2 rounded-xl transition-colors duration-200 hover:bg-gray-50 group/meta">
-                        <p className="text-xs text-gray-400 font-extrabold uppercase tracking-wide">🎁 Participant Gains & Provisions</p>
-                        <p className="font-bold text-emerald-600 mt-0.5">{job.youthGain}</p>
+                        <p className="metadata-label"><Gift size={16} aria-hidden="true" /> Participant benefits</p>
+                        <p className="font-bold text-blue-700 mt-0.5">{job.youthGain}</p>
                       </div>
                     </div>
 
                     {/* Action Panel Trigger Button (Configured with dynamic state text updates) */}
-                    <div className="flex justify-end">
-                      <button 
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <p className="text-sm text-gray-600" role="status">
+                        {hasJoined ? "Demo complete. No registration was submitted." : ""}
+                      </p>
+                      <button type="button"
                         onClick={() => handleSimulatedRegister(job.id)}
                         disabled={job.status !== "Open Registration" || hasJoined}
-                        className={`px-6 py-3 rounded-full font-bold text-xs shadow-sm transition-all duration-200 transform active:scale-95 ${
+                        className={`action-button ${
                           hasJoined
-                            ? "bg-emerald-600 text-white font-extrabold shadow-inner cursor-default"
+                            ? "bg-blue-700 text-white font-extrabold shadow-inner cursor-default"
                             : job.status === "Open Registration"
-                            ? "bg-gradient-to-r from-ndy-primary to-ndy-secondary text-white hover:scale-105 hover:shadow-xl"
+                            ? "action-primary"
                             : "bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200"
                         }`}
                       >
-                        {hasJoined 
-                          ? "✓ You Are Registered For This Track" 
-                          : job.status === "Open Registration" 
-                          ? "Register for this Mobilization Track" 
+                        {hasJoined ? <Check size={17} aria-hidden="true" /> : job.status === "Open Registration" && <ArrowRight size={17} aria-hidden="true" />}
+                        {hasJoined
+                          ? "Demo completed"
+                          : job.status === "Open Registration"
+                          ? "Try demo registration"
                           : "Registration Closed"}
                       </button>
                     </div>
@@ -168,7 +171,10 @@ export default function Programs() {
         {filteredDeployments.length === 0 && (
           <ScrollReveal>
             <div className="text-center py-16 bg-white border border-dashed border-gray-200 rounded-3xl mt-4">
-              <p className="text-gray-500 text-sm font-semibold">No deployment contracts currently match the selected tracking sector rules.</p>
+              <p className="text-gray-600 text-sm font-semibold">No programs match this filter.</p>
+              <button type="button" className="action-button action-secondary mt-4" onClick={() => setActiveFilter("All")}>
+                Show all programs
+              </button>
             </div>
           </ScrollReveal>
         )}
